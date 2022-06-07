@@ -8,6 +8,8 @@ Starting in macOS 13, the operating system remembers the camera that it prefers 
 
 The sample app shows you how to access the iPhone camera and microphone, adopt automatic camera selection, and control and observe the state of system video effects.
 
+- Note: This sample code project is associated with WWDC22 session [10018: Bring Continuity Camera to your macOS app](https://developer.apple.com/wwdc22/10018)
+
 ## Configure the sample code project
 To run this sample app, you’ll need the following:
 
