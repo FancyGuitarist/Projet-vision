@@ -85,14 +85,18 @@ If the app has automatic camera selection enabled, when it observes a change to 
 ``` swift
 // The app calls this method when the system-preferred camera changes.
 private func systemPreferredCameraChanged(to captureDevice: AVCaptureDevice) async {
-    if isAutomaticCameraSelectionEnabled {
-        // Select the new system-preferred camera.
-        await selectCaptureDevice(captureDevice)
-    }
-    // If automatic camera selection isn't enabled, and the current video input
-    // is no longer connected, reset the app to its default device selections.
-    else if !isActiveVideoInputDeviceConnected {
+    
+    // If the SPC changes due to a device disconnection, reset the app
+    // to its default device selections.
+    guard isActiveVideoInputDeviceConnected else {
         resetToDefaultDevices()
+        return
+    }
+    
+    // If the "Automatic Camera Selection" checkbox is in an enabled state,
+    // automatically select the new capture device.
+    if isAutomaticCameraSelectionEnabled {
+        await selectCaptureDevice(captureDevice)
     }
 }
 ```
