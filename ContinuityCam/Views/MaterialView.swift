@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-A wrapper view around NSVisualEffectView.
+A wrapper view around a visual effect view.
 */
 
 import SwiftUI

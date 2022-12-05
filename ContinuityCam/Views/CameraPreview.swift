@@ -34,7 +34,7 @@ struct CameraPreview: NSViewRepresentable {
             previewLayer.connection?.automaticallyAdjustsVideoMirroring = false
             previewLayer.backgroundColor = .black
             
-            // Make this a layer-hosting view. First set the layer, then set `wantsLayer` to true.
+            // Make this a layer-hosting view. First, set the layer, then set `wantsLayer` to true.
             layer = previewLayer
             wantsLayer = true
         }

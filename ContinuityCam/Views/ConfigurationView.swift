@@ -16,7 +16,7 @@ struct ConfigurationView: View {
     
     var body: some View {
         Form {
-            // Cameras heading
+            // The camera's heading.
             Section(header: SectionHeader("Cameras")) {
                 DevicePickerView(label: "Camera", devices: camera.videoDevices, selectedDevice: $camera.selectedVideoDevice)
                 Picker("Formats", selection: $camera.selectedVideoFormat) {
@@ -32,14 +32,14 @@ struct ConfigurationView: View {
 
             Spacer().frame(height: sectionSpacing)
             
-            // Microphones heading
+            // The microphone's heading.
             Section(header: SectionHeader("Microphones")) {
                 DevicePickerView(label: "Microphone", devices: camera.audioDevices, selectedDevice: $camera.selectedAudioDevice)
             }
 
             Spacer().frame(height: sectionSpacing)
             
-            // Video Effects heading
+            // The video effect's heading.
             Section(header: SectionHeader("Video Effects")) {
                 Toggle(isOn: $camera.isCenterStageEnabled) {
                     Text("Center Stage")
@@ -59,7 +59,7 @@ struct ConfigurationView: View {
 
 struct ConfigurationView_Previews: PreviewProvider {
     class PreviewCamera: Camera {
-        override func start() async { /* Overridden to do nothing */ }
+        override func start() async { /* Overridden to do nothing. */ }
     }
     static var previews: some View {
         ConfigurationView(camera: PreviewCamera())

@@ -108,17 +108,17 @@ class Camera: ObservableObject {
         
         // Observe changes to device selections from the UI.
         $selectedVideoDevice.merge(with: $selectedAudioDevice).dropFirst().removeDuplicates().sink { [weak self] device in
-            // Return early if the camera hasn't finished its set up.
+            // Return early if the camera hasn't finished its setup.
             guard let self = self, self.isSetup else { return }
             self.selectDevice(device)
         }.store(in: &subscriptions)
         
-        // Observe changes to video format from the UI.
+        // Observe changes to the video format from the UI.
         $selectedVideoFormat.dropFirst().sink { [weak self] format in
             self?.selectFormat(format)
         }.store(in: &subscriptions)
         
-        // If the user enables the "Automatic Camera Selection" checkbox, select the SPC (if not already selected).
+        // If the user enables the Automatic Camera Selection checkbox, select the SPC (if not already selected).
         $isAutomaticCameraSelectionEnabled.sink { [weak self] isEnabled in
             guard isEnabled, let systemPreferredCamera = AVCaptureDevice.systemPreferredCamera else { return }
             Task { await self?.selectCaptureDevice(systemPreferredCamera) }
@@ -294,7 +294,7 @@ class Camera: ObservableObject {
             return
         }
         
-        // If the "Automatic Camera Selection" checkbox is in an enabled state,
+        // If the Automatic Camera Selection checkbox is in an enabled state,
         // automatically select the new capture device.
         if isAutomaticCameraSelectionEnabled {
             await selectCaptureDevice(captureDevice)

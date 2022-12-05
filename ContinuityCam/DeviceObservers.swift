@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Key-value observing objects that monitor the state of AVCaptureDevice properties.
+Key-value observing objects that monitor the state of capture device properties.
 */
 
 import AVFoundation
