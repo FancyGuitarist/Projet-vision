@@ -8,6 +8,7 @@ The object that manages the capture session.
 import Foundation
 import AVFoundation
 import Combine
+
 @MainActor
 class Camera: ObservableObject {
     

@@ -8,6 +8,50 @@
 
 import AVFoundation
 import AppKit
+import Cocoa
+
+class ViewController: NSViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let context = CIContext()
+        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
+        guard
+            let filter = CIFilter(name: "CISepiaTone"),
+            let imageURL = Bundle.main.url(forResource: "my-image", withExtension: "png"),
+            let ciImage = CIImage(contentsOf: imageURL)
+        else { return }
+
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(0.5, forKey: kCIInputIntensityKey)
+
+        guard let result = filter.outputImage, let cgImage = context.createCGImage(result, from: result.extent)
+        else { return }
+
+        let destinationURL = desktopURL.appendingPathComponent("my-image.png")
+        let nsImage = NSImage(cgImage: cgImage, size: ciImage.extent.size)
+        if nsImage.pngWrite(to: destinationURL, options: .withoutOverwriting) {
+            print("File saved")
+        }
+    }
+}
+
+extension NSImage {
+    var pngData: Data? {
+        guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
+        return bitmapImage.representation(using: .png, properties: [:])
+    }
+    func pngWrite(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
+        do {
+            try pngData?.write(to: url, options: options)
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+}
 
 class CameraViewController: NSViewController {
     
@@ -61,7 +105,8 @@ class CameraViewController: NSViewController {
     
     @IBAction func takePhoto(_ sender: Any) {
         let settings = AVCapturePhotoSettings()
-        photoOutput.capturePhoto(with: settings, delegate: self)
+        let output: Void = photoOutput.capturePhoto(with: settings, delegate: self)
+
     }
 }
 
@@ -69,7 +114,12 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let image = NSImage(data: imageData)
-        
+        let desktopURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
+        let manager = FileManager.default
+
+
+        // Get the URL to the app container's 'tmp' directory.
+        image?.pngWrite(to: desktopURL.appendingPathComponent("my-image.png"))
         // Save or process the captured image from iPhone
         print("Photo captured successfully")
     }

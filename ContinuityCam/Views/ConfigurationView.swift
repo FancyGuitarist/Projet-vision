@@ -18,6 +18,7 @@ struct ConfigurationView: View {
         let message = out
         
     }
+    let a = CameraViewController()
     var body: some View {
         Form {
             // The camera's heading.
@@ -40,7 +41,8 @@ struct ConfigurationView: View {
             
             Section(header: SectionHeader("Acquisition")) {
                 Button("Acquisition", action: {
-                    print(acquire())
+                    a.setupCamera()
+                    a.takePhoto(Camera())
                 } )
             }
             Spacer().frame(height: sectionSpacing)

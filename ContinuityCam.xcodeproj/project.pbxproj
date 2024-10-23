@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		712D88BF2CC96441007852D5 /* multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D88BE2CC9643D007852D5 /* multi.swift */; };
+		712D88BF2CC96441007852D5 /* Multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712D88BE2CC9643D007852D5 /* Multi.swift */; };
 		C43E3FC327E9144700407847 /* ContinuityCamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E3FC227E9144700407847 /* ContinuityCamApp.swift */; };
 		C43E3FC527E9144700407847 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E3FC427E9144700407847 /* ContentView.swift */; };
 		C43E3FC727E9144800407847 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C43E3FC627E9144800407847 /* Assets.xcassets */; };
@@ -21,7 +21,7 @@
 
 /* Begin PBXFileReference section */
 		31B2412E6C6D00DF9CE8EF45 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		712D88BE2CC9643D007852D5 /* multi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multi.swift; sourceTree = "<group>"; };
+		712D88BE2CC9643D007852D5 /* Multi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multi.swift; sourceTree = "<group>"; };
 		7A20014E8C7056634230734C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C43E3FBF27E9144700407847 /* ContinuityCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContinuityCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C43E3FC227E9144700407847 /* ContinuityCamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuityCamApp.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 		C43E3FC127E9144700407847 /* ContinuityCam */ = {
 			isa = PBXGroup;
 			children = (
-				712D88BE2CC9643D007852D5 /* multi.swift */,
+				712D88BE2CC9643D007852D5 /* Multi.swift */,
 				C4CF72B22818458D00BB904D /* Camera.swift */,
 				C45A86AC2816225200E38D2E /* DeviceObservers.swift */,
 				C43E3FC427E9144700407847 /* ContentView.swift */,
@@ -189,7 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C478A46127F26B3C00BAD098 /* ConfigurationView.swift in Sources */,
-				712D88BF2CC96441007852D5 /* multi.swift in Sources */,
+				712D88BF2CC96441007852D5 /* Multi.swift in Sources */,
 				C4CEA04827E914FD007D6FD3 /* CameraPreview.swift in Sources */,
 				C45A86AD2816225200E38D2E /* DeviceObservers.swift in Sources */,
 				C43E3FC527E9144700407847 /* ContentView.swift in Sources */,
@@ -324,6 +324,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ContinuityCam/ContinuityCam.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -355,6 +356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ContinuityCam/ContinuityCam.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
