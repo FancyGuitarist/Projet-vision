@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var camera = Camera()
-    
+
     var body: some View {
         HStack(spacing: 0) {
             camera.preview

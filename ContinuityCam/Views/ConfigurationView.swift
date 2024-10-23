@@ -13,7 +13,11 @@ struct ConfigurationView: View {
     
     let sectionSpacing: CGFloat = 20
     @ObservedObject var camera: Camera
-    
+    func acquire(Cameradevice: CameraViewController)  {
+        var out = Cameradevice.captureSession.outputs
+        let message = out
+        
+    }
     var body: some View {
         Form {
             // The camera's heading.
@@ -33,24 +37,23 @@ struct ConfigurationView: View {
             Spacer().frame(height: sectionSpacing)
             
             // The microphone's heading.
-            Section(header: SectionHeader("Microphones")) {
-                DevicePickerView(label: "Microphone", devices: camera.audioDevices, selectedDevice: $camera.selectedAudioDevice)
+            
+            Section(header: SectionHeader("Acquisition")) {
+                Button("Acquisition", action: {
+                    print(acquire())
+                } )
             }
-
+            Spacer().frame(height: sectionSpacing)
+            
+            Section(header: SectionHeader("Iphone")){
+                let name_of_device = camera.selectedAudioDevice.name
+                Text(name_of_device)
+            }
+            
             Spacer().frame(height: sectionSpacing)
             
             // The video effect's heading.
-            Section(header: SectionHeader("Video Effects")) {
-                Toggle(isOn: $camera.isCenterStageEnabled) {
-                    Text("Center Stage")
-                }
-                .disabled(!camera.isCenterStageSupported)
-                .padding(.bottom, 4)
-                EffectStatusView(name: "Portrait Mode", status: camera.isPortraitEffectEnabled)
-                    .disabled(!camera.isPortraitEffectSupported)
-                EffectStatusView(name: "Studio Light", status: camera.isStudioLightEnabled)
-                    .disabled(!camera.isStudioLightSupported)
-            }
+            
             Spacer()
         }
         .padding()

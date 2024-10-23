@@ -29,6 +29,7 @@ struct CameraPreview: NSViewRepresentable {
             super.init(frame: .zero)
             
             // Creates a preview layer to use as the view's backing layer.
+
             let previewLayer = AVCaptureVideoPreviewLayer(session: session)
             previewLayer.videoGravity = .resizeAspectFill
             previewLayer.connection?.automaticallyAdjustsVideoMirroring = false

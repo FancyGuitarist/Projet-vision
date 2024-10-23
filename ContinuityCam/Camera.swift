@@ -8,7 +8,6 @@ The object that manages the capture session.
 import Foundation
 import AVFoundation
 import Combine
-
 @MainActor
 class Camera: ObservableObject {
     
@@ -91,6 +90,7 @@ class Camera: ObservableObject {
     /// A view that provides a preview of the captured content.
     lazy var preview: CameraPreview = {
         CameraPreview(session: session)
+
     }()
     
     // MARK: - Initialization
@@ -258,7 +258,7 @@ class Camera: ObservableObject {
     private func startSession() {
         Task.detached(priority: .userInitiated) {
             guard await !self.isRunning else { return }
-            self.session.startRunning()
+            await self.session.startRunning()
             await MainActor.run {
                 self.isRunning = self.session.isRunning
                 self.state = .running
