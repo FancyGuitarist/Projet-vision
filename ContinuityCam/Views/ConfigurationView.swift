@@ -14,10 +14,11 @@ struct ConfigurationView: View {
     let sectionSpacing: CGFloat = 20
     @ObservedObject var camera: Camera
     func acquire(Cameradevice: CameraViewController)  {
-        var out = Cameradevice.captureSession.outputs
+        let out = Cameradevice.captureSession.outputs
         let message = out
         
     }
+    let a = CameraViewController()
     var body: some View {
         Form {
             // The camera's heading.
@@ -40,7 +41,8 @@ struct ConfigurationView: View {
             
             Section(header: SectionHeader("Acquisition")) {
                 Button("Acquisition", action: {
-                    print(acquire())
+                    a.setupCamera()
+                    a.takePhoto(Camera())
                 } )
             }
             Spacer().frame(height: sectionSpacing)
