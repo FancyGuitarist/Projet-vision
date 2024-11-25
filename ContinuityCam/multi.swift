@@ -52,6 +52,7 @@ class CameraViewController: NSViewController {
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     var photoOutput: AVCapturePhotoOutput!
+    var image_counter: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,7 @@ class CameraViewController: NSViewController {
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
                                                                 mediaType: .video,
                                                                 position: .unspecified)
+        print("iPhone cameras:")
         
         guard let iPhoneCamera = discoverySession.devices.first(where: { $0.localizedName.contains("iPhone") }) else {
             print("iPhone camera not found")
@@ -108,11 +110,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let image = NSImage(data: imageData)
         let desktopURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
-                let manager = FileManager.default
                 // Get the URL to the app container's 'tmp' directory.
-                let isCaptured = image?.pngWrite(to: desktopURL.appendingPathComponent("my-image.png"))
+        let isCaptured = image?.pngWrite(to: desktopURL.appendingPathComponent("MyImage_\(image_counter).png"))
         
         // Save or process the captured image from iPhone
-        print("Photo captured: \(String(describing: isCaptured))")
+        print("Photo captured: \(isCaptured ?? false), #\(image_counter)")
+        print(listCameraDetails())
     }
 }

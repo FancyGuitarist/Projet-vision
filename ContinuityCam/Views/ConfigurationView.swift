@@ -41,8 +41,10 @@ struct ConfigurationView: View {
             
             Section(header: SectionHeader("Acquisition")) {
                 Button("Acquisition", action: {
+                    a.image_counter += 1
                     a.setupCamera()
                     a.takePhoto(Camera())
+                    a.captureSession.stopRunning()
                 } )
             }
             Spacer().frame(height: sectionSpacing)
