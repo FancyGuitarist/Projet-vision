@@ -9,12 +9,9 @@
 import AVFoundation
 import AppKit
 import Cocoa
-
 class ViewController: NSViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
         let context = CIContext()
         let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
         guard
@@ -22,21 +19,18 @@ class ViewController: NSViewController {
             let imageURL = Bundle.main.url(forResource: "my-image", withExtension: "png"),
             let ciImage = CIImage(contentsOf: imageURL)
         else { return }
-
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(0.5, forKey: kCIInputIntensityKey)
-
         guard let result = filter.outputImage, let cgImage = context.createCGImage(result, from: result.extent)
         else { return }
-
         let destinationURL = desktopURL.appendingPathComponent("my-image.png")
         let nsImage = NSImage(cgImage: cgImage, size: ciImage.extent.size)
         if nsImage.pngWrite(to: destinationURL, options: .withoutOverwriting) {
             print("File saved")
+            print(destinationURL)
         }
     }
 }
-
 extension NSImage {
     var pngData: Data? {
         guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
@@ -58,6 +52,7 @@ class CameraViewController: NSViewController {
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     var photoOutput: AVCapturePhotoOutput!
+    var image_counter: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +74,8 @@ class CameraViewController: NSViewController {
         }
         
         do {
-            let cameraInput = try AVCaptureDeviceInput(device: iPhoneCamera)
+            let cameraInput = try AVCaptureDeviceInput(device: AVCaptureDevice.userPreferredCamera ?? iPhoneCamera)
+            print("Camera Input: \(cameraInput.device.minimumFocusDistance)")
             if captureSession.canAddInput(cameraInput) {
                 captureSession.addInput(cameraInput)
             }
@@ -106,7 +102,6 @@ class CameraViewController: NSViewController {
     @IBAction func takePhoto(_ sender: Any) {
         let settings = AVCapturePhotoSettings()
         let output: Void = photoOutput.capturePhoto(with: settings, delegate: self)
-
     }
 }
 
@@ -115,12 +110,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let image = NSImage(data: imageData)
         let desktopURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
-        let manager = FileManager.default
-
-
-        // Get the URL to the app container's 'tmp' directory.
-        image?.pngWrite(to: desktopURL.appendingPathComponent("my-image.png"))
+                // Get the URL to the app container's 'tmp' directory.
+        let isCaptured = image?.pngWrite(to: desktopURL.appendingPathComponent("MyImage_\(image_counter).png"))
+        
         // Save or process the captured image from iPhone
-        print("Photo captured successfully")
+        print("Photo captured: \(isCaptured ?? false), #\(image_counter)")
+        print(listCameraDetails())
     }
 }

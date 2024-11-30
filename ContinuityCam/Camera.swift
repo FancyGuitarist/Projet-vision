@@ -404,6 +404,23 @@ struct VideoFormat: Hashable, Identifiable {
 
 /// Adds a formatName property that generates a name by inspecting the format description.
 extension AVCaptureDevice.Format {
+    func lensTypeDescription(for device: AVCaptureDevice) -> String {
+        let dimensions = formatDescription.dimensions
+        let isHighResolution = videoSupportedFrameRateRanges.contains(where: { $0.maxFrameRate > 60 })
+
+        // Use dimensions and device information to infer lens type
+        if device.isContinuityCamera {
+            if dimensions.width >= 3840 && dimensions.height >= 2160 {
+                return "Telephoto Camera"
+            } else if dimensions.width >= 1920 && dimensions.height >= 1080 {
+                return isHighResolution ? "Wide Angle Camera (High-Res)" : "Wide Angle Camera"
+            } else if dimensions.width < 1920 {
+                return "Ultra-Wide Camera"
+            }
+        }
+        return "Unknown Camera"
+    }
+
     var formatName: String {
         let size = formatDescription.dimensions
         guard let formatName = formatDescription.extensions[.formatName]?.propertyListRepresentation as? String else {
@@ -412,3 +429,36 @@ extension AVCaptureDevice.Format {
         return "\(formatName), \(size.width) x \(size.height)"
     }
 }
+
+extension AVCaptureDevice {
+    var isContinuityCamera: Bool {
+        if #available(macOS 14.0, *) {
+            return self.deviceType == .external && self.localizedName.contains("iPhone")
+        } else {
+            return false // Fallback for earlier macOS versions
+        }
+    }
+}
+
+func listCameraDetails() {
+    let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .externalUnknown],
+                                                   mediaType: .video,
+                                                   position: .unspecified).devices
+
+    for device in devices {
+        if device.isContinuityCamera {
+            print("Device: \(device.localizedName) (Continuity Camera)")
+        } else {
+            print("Device: \(device.localizedName)")
+        }
+
+        for format in device.formats {
+            let lensType = format.lensTypeDescription(for: device)
+            let dimensions = format.formatDescription.dimensions
+            print("  - \(device.minimumFocusDistance): \(dimensions.width)x\(dimensions.height)")
+        }
+    }
+}
+
+
+
