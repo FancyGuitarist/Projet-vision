@@ -67,7 +67,6 @@ class CameraViewController: NSViewController {
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
                                                                 mediaType: .video,
                                                                 position: .unspecified)
-        print("iPhone cameras:")
         
         guard let iPhoneCamera = discoverySession.devices.first(where: { $0.localizedName.contains("iPhone") }) else {
             print("iPhone camera not found")
@@ -75,7 +74,8 @@ class CameraViewController: NSViewController {
         }
         
         do {
-            let cameraInput = try AVCaptureDeviceInput(device: iPhoneCamera)
+            let cameraInput = try AVCaptureDeviceInput(device: AVCaptureDevice.userPreferredCamera ?? iPhoneCamera)
+            print("Camera Input: \(cameraInput.device.minimumFocusDistance)")
             if captureSession.canAddInput(cameraInput) {
                 captureSession.addInput(cameraInput)
             }

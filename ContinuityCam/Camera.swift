@@ -454,7 +454,7 @@ func listCameraDetails() {
         for format in device.formats {
             let lensType = format.lensTypeDescription(for: device)
             let dimensions = format.formatDescription.dimensions
-            print("  - \(lensType): \(dimensions.width)x\(dimensions.height)")
+            print("  - \(device.minimumFocusDistance): \(dimensions.width)x\(dimensions.height)")
         }
     }
 }
